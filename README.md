@@ -1,4 +1,4 @@
-# GridConv
+# GridConv, accepted to AAAI 2023.
 
 By Yangyuxuan Kang, Yuyang Liu, Anbang Yao, et al.
 
