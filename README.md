@@ -1,4 +1,4 @@
-# GridConv, accepted to AAAI 2023.
+# GridConv, accepted to AAAI 2023 as an oral paper.
 
 By Yangyuxuan Kang, Yuyang Liu, Anbang Yao, et al.
 
