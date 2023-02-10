@@ -54,7 +54,7 @@ ${GridConv_repo}
 
 
 ## Results and Models
-![](assets/internet video.gif)
+![](assets/internet%20video.gif)
 *Figure 2. Qualitative results on Internet videos.*
 
 Grid lifting network with 2 residual blocks of D-GridConv, 256 latent channels, 5x5 grid size, 
