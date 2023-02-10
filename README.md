@@ -11,10 +11,7 @@ to its 3D estimation, which relies on a learnable regular weave-like grid pose
 representation instead of the predominant irregular graph structures.
 
 ![](assets/framework.jpg)
-Overview of 2D-to-3D lifting regression by Grid Lifting Network. 
-First, Semantic Grid Transformation (SGT) transforms 2D human pose to
-2D grid pose. Next, Grid Lifting Network takes it as input and predicts 3D grid pose.
-Last, inverse SGT maps 3D grid pose to standard 3D human pose for evaluation.
+*Figure 1. Overview of grid lifting network regressing 3D human pose from 2D skeleton input.*
 
 The implementation of SGT designs and grid convolution layers please refer to our paper
 for thorough interpretation.
@@ -55,7 +52,11 @@ ${GridConv_repo}
 - `*_3d_unnorm.pth.tar` are `dict`, whose keys are `(SUBJECT, ACTION, FILE_NAME)` 
   and values are `dict` of `{ 'pelvis':N*3, 'joints_3d':N*51, 'camera':[fx,fy,cx,cy] }`.
 
+
 ## Results and Models
+![](assets/internet video.gif)
+*Figure 2. Qualitative results on Internet videos.*
+
 Grid lifting network with 2 residual blocks of D-GridConv, 256 latent channels, 5x5 grid size, 
 trained on Human3.6M trainset for 100 epochs.
 
