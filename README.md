@@ -18,7 +18,7 @@ for thorough interpretation.
 
 ## Installation
 
-The experiments are conducted on Ubuntu 18.04, with Python 2.7, and PyTorch 1.4.
+Our experiments are conducted on an GPU server with the Ubuntu 18.04 LTS system, Python 2.7, and PyTorch 1.4.
 
 ```
 cd GridConv
@@ -69,7 +69,7 @@ Evaluation results of pretrained models on Human3.6M testset (S9, S11):
 |HRNet|Handcrafted|47.93|37.85|[model](https://drive.google.com/file/d/14InSsbMeWInM1X5JYWxod0_h3ptXS8O3/view?usp=share_link)|
 |HRNet|Learnable|47.56|37.43|[model](https://drive.google.com/file/d/1O45DjCEcKE74c5Nw939Woie0o9lqll54/view?usp=share_link)|
 
-## Evaluation on pretrained models
+## Evaluation of pretrained models
 
 ---
 Test on HRNet input using handcrafted SGT:
@@ -93,7 +93,7 @@ python main.py --eval --input gt \
 ```
 
 
-## Train
+## Training the model from scratch
 
 ---
 If you want to reproduce the results of our pretrained models, run the following commands.
@@ -104,7 +104,7 @@ python main.py --exp hrnet_dgridconv-autogrids_5x5 \
                --grid_shape 5 5 --num_block 2 --hidsize 256 \
                --padding_mode c z
 ```
-Training on 1 1080Ti GPU cost 20 min per epoch, we train each model for 100 epochs 
+Training on 1 1080Ti GPU typically costs about 20 minute per epoch. We train each model for 100 epochs 
 with Adam optimizer. Several settings will influence the performance:
 - `--grid_shape H W`, we set grid pose as 5x5 size as default. 
   When enabling learnable SGT, grid size can be set as arbitrary values and may have influence on the accuracy.
