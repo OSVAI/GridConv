@@ -13,8 +13,8 @@ representation instead of the predominant irregular graph structures.
 ![](assets/framework.jpg)
 *Figure 1. Overview of grid lifting network regressing 3D human pose from 2D skeleton input.*
 
-The implementation of SGT designs and grid convolution layers please refer to our paper
-for thorough interpretation.
+Regarding the definition and implementation of SGT designs and grid convolution layers, please refer to our paper
+for thorough interpretations.
 
 ## Installation
 
