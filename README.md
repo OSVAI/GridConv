@@ -85,12 +85,19 @@ python main.py --eval --input hrnet \
                --load pretrained_model/hrnet_d-gridconv_autogrids.pth.tar \
                --lifting_model dgridconv_autogrids --padding_mode c z
 ```
+Test on ground truth input using handcrafted SGT:
+```
+python main.py --eval --input gt \
+               --load pretrained_model/gt_d-gridconv.pth.tar \
+               --lifting_model dgridconv --padding_mode c r
+```
 Test on ground truth input using learnable SGT:
 ```
 python main.py --eval --input gt \
                --load pretrained_model/gt_d-gridconv_autogrids.pth.tar \
                --lifting_model dgridconv_autogrids --padding_mode c r
 ```
+
 
 
 ## Training the model from scratch
