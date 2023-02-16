@@ -30,7 +30,7 @@ conda activate gridconv
 
 ---
 ### Human3.6M
-- Get preprocessed `h36m.zip` ([Google Drive]()) 
+- Get preprocessed `h36m.zip` ([Google Drive](https://drive.google.com/file/d/168_bVbJA0zMz37_IgYP18XECYT-_FuHM/view?usp=share_link)) 
 - `mv h36m.zip ${GridConv_repo}/src/`
 - `unzip h36m.zip`
 
