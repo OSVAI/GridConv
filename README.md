@@ -3,7 +3,7 @@
 ---
 By Yangyuxuan Kang, Yuyang Liu, Anbang Yao, Shandong Wang, and Enhua Wu.
 
-This repository is an official Pytorch implementation of "[3D Human Pose Lifting with Grid Convolution](http://url)",
+This repository is an official Pytorch implementation of "[3D Human Pose Lifting with Grid Convolution](http://arxiv.org/abs/2302.08760)",
 dubbed GridConv. The paper is accepted to AAAI 2023 as an **oral presentation**.
 
 GridConv is a new powerful representation learning paradigm to lift a 2D human pose 
