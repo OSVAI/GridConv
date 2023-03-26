@@ -38,7 +38,7 @@ class DynamicGridLiftingNetwork(nn.Module):
                                               ratios=1/16., temperature=temperature, groups=1)
         self.linear_stages = []
         for l in range(num_block):
-            self.linear_stages.append(CNNBlock(self.hidden_size, grid_shape=grid_shape, padding_mode=padding_mode, p_dropout=self.p_dropout))
+            self.linear_stages.append(CNNBlock(self.hidden_size, grid_shape=grid_shape, padding_mode=padding_mode, p_dropout=self.p_dropout, temperature=temperature))
         self.linear_stages = nn.ModuleList(self.linear_stages)
 
         self.w2 = conv(in_channels=self.hidden_size, out_channels=3, kernel_size=3, padding_mode=padding_mode, bias=False)
