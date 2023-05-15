@@ -58,6 +58,11 @@ class AutoDynamicGridLiftingNetwork(nn.Module):
         self.grid_shape = list(grid_shape)
         self.sgt_layer = AutoSGT(num_jts=num_jts, grid_shape=grid_shape)
 
+    def net_update_temperature(self, temperature):
+        for m in self.modules():
+            if hasattr(m, "update_temperature"):
+                m.update_temperature(temperature)
+
     def forward(self, x, gumbel_temp=1.0, use_gumbel_noise=False, is_training=False):
         batch_size = x.shape[0]
         sgt_trans_mat_hard = self.sgt_layer(gumbel_temp=gumbel_temp, use_gumbel_noise=use_gumbel_noise, is_training=is_training).repeat([batch_size, 1, 1])

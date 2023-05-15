@@ -47,6 +47,10 @@ class DynamicGridLiftingNetwork(nn.Module):
                                               ratios=1/16., temperature=temperature, groups=1)
         self.relu = nn.ReLU(inplace=True)
 
+    def net_update_temperature(self, temperature):
+        for m in self.modules():
+            if hasattr(m, "update_temperature"):
+                m.update_temperature(temperature)
 
     def forward(self, x):
         atten1 = self.atten_conv1(x)
