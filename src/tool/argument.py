@@ -22,7 +22,7 @@ class Options:
                                  help='use procrustes analysis at testing')
 
         self.parser.add_argument('--lr', type=float, default=1.0e-3)
-        self.parser.add_argument('--lr_decay', type=int, default=1, help='milestone epoch for lr decay')
+        self.parser.add_argument('--lr_decay', type=int, default=10, help='milestone epoch for lr decay')
         self.parser.add_argument('--lr_gamma', type=float, default=0.96, help='decay weight')
         self.parser.add_argument('--epoch', type=int, default=200)
         self.parser.add_argument('--dropout', type=float, default=0.25, help='dropout probability')
