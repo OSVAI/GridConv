@@ -39,7 +39,8 @@ def get_lifting_model(opt):
         model = AutoDynamicGridLiftingNetwork(hidden_size=opt.hidsize,
                                           num_block=opt.num_block,
                                           grid_shape=opt.grid_shape,
-                                          padding_mode=opt.padding_mode)
+                                          padding_mode=opt.padding_mode,
+                                          autosgt_prior=opt.autosgt_prior)
     else:
         raise Exception('Unexpected argument, %s' % opt.lifting_model)
     model = model.cuda()

@@ -22,7 +22,8 @@ class AutoDynamicGridLiftingNetwork(nn.Module):
                  output_dim = 3,
                  temperature=30,
                  grid_shape=(5,5),
-                 padding_mode=('c','z')):
+                 padding_mode=('c','z'),
+                 autosgt_prior='standard'):
         super(AutoDynamicGridLiftingNetwork, self).__init__()
 
         self.linear_size = hidden_size
@@ -56,7 +57,7 @@ class AutoDynamicGridLiftingNetwork(nn.Module):
         self.relu = ReLU(inplace=True)
 
         self.grid_shape = list(grid_shape)
-        self.sgt_layer = AutoSGT(num_jts=num_jts, grid_shape=grid_shape)
+        self.sgt_layer = AutoSGT(num_jts=num_jts, grid_shape=grid_shape, autosgt_prior=autosgt_prior)
 
     def net_update_temperature(self, temperature):
         for m in self.modules():
@@ -240,13 +241,13 @@ class DynamicAttention2D(nn.Module):
 
 
 class AutoSGT(nn.Module):
-    def __init__(self, num_jts, grid_shape):
+    def __init__(self, num_jts, grid_shape, autosgt_prior):
         super(AutoSGT, self).__init__()
         self.grid_shape = grid_shape
         self.J = num_jts
         self.HW = np.prod(grid_shape)
 
-        self.register_parameter('sgt_trans_mat', torch.nn.Parameter(torch.rand(1, np.prod(grid_shape), num_jts)))
+        self.register_parameter('sgt_trans_mat', torch.nn.Parameter(self.init_sgt_prior(autosgt_prior)))
 
     def forward(self, use_gumbel_noise, gumbel_temp, is_training=False):
         sgt_trans_mat = self.sgt_trans_mat
@@ -262,3 +263,61 @@ class AutoSGT(nn.Module):
             sgt_trans_mat_hard = F.one_hot(torch.argmax(sgt_trans_mat, -1)).float()
 
         return sgt_trans_mat_hard
+    
+    def init_sgt_prior(self, prior_type):
+        assert self.J == 17 and self.HW == 25
+        if prior_type == 'standard':
+            prior_sgt_mat = torch.zeros(self.grid_shape + [self.J])
+            # row 0
+            prior_sgt_mat[0, :, 7] = 1
+            # row 1
+            prior_sgt_mat[1, [0, -1], 0] = 1
+            prior_sgt_mat[1, [1, 2, 3], 8] = 1
+            # row 2
+            prior_sgt_mat[2, 0, 4] = 1
+            prior_sgt_mat[2, 1, 11] = 1
+            prior_sgt_mat[2, 2, 9] = 1
+            prior_sgt_mat[2, 3, 14] = 1
+            prior_sgt_mat[2, 4, 1] = 1
+            # row 3
+            prior_sgt_mat[3, 0, 5] = 1
+            prior_sgt_mat[3, 1, 12] = 1
+            prior_sgt_mat[3, 2, 9] = 1
+            prior_sgt_mat[3, 3, 15] = 1
+            prior_sgt_mat[3, 4, 2] = 1
+            # row 4
+            prior_sgt_mat[4, 0, 6] = 1
+            prior_sgt_mat[4, 1, 13] = 1
+            prior_sgt_mat[4, 2, 10] = 1
+            prior_sgt_mat[4, 3, 16] = 1
+            prior_sgt_mat[4, 4, 3] = 1
+            prior_sgt_mat = prior_sgt_mat.reshape(1, self.HW, self.J)
+        elif prior_type == 'learnt_type1':
+            prior_sgt_mat = torch.LongTensor([[7,4,7,1,0,
+                                              0,8,8,8,0,
+                                              4,11,9,14,1,
+                                              5,12,9,15,2,
+                                              6,13,10,16,3]])
+            prior_sgt_mat = F.one_hot(prior_sgt_mat, num_classes=self.J).float()    # 1*self.HW*self.J
+        elif prior_type == 'learnt_type2':
+            prior_sgt_mat = torch.LongTensor([[0,15,7,1,0,
+                                               1,14,8,7,0,
+                                               4,0,9,13,1,
+                                               2,6,11,10,2,
+                                               5,12,14,16,3]])
+            prior_sgt_mat = F.one_hot(prior_sgt_mat, num_classes=self.J).float()    # 1*self.HW*self.J
+        elif prior_type == 'learnt_type3':
+            prior_sgt_mat = torch.LongTensor([[9,7,7,10,7,
+                                               13,8,10,15,16,
+                                               9,12,7,14,1,
+                                               4,5,7,3,11,
+                                               7,6,9,2,14]])
+            prior_sgt_mat = F.one_hot(prior_sgt_mat, num_classes=self.J).float()    # 1*self.HW*self.J
+        elif prior_type == 'random_prob':
+            prior_sgt_mat = torch.rand([self.HW, self.J])
+            prior_sgt_mat = F.softmax(prior_sgt_mat, dim=-1).unsqueeze(0)
+        else:
+            raise Exception()
+
+        return prior_sgt_mat
+

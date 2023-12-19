@@ -42,6 +42,7 @@ class Options:
         self.parser.add_argument('--num_block',      type=int, default=2, help='number of residual blocks')
         self.parser.add_argument('--padding_mode', type=str, nargs='+', default=['c','r'])
         self.parser.add_argument('--grid_shape', type=int, nargs='+', default=[5, 5])
+        self.parser.add_argument('--autosgt_prior', type=str, default='standard')
 
 
     def _print(self):
@@ -55,6 +56,7 @@ class Options:
         ckpt = os.path.join(self.opt.ckpt, self.opt.exp)
         if not os.path.isdir(ckpt):
             os.makedirs(ckpt)
+        self.opt.ckpt = ckpt
         self.opt.prepare_grid = self.opt.lifting_model in ['gridconv', 'dgridconv']
         self._print()
 
